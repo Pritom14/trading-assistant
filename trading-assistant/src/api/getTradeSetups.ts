@@ -33,4 +33,15 @@ router.patch('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/trade-setups/mark-all-delivered (for demo/testing cleanup)
+router.post('/mark-all-delivered', async (req: Request, res: Response) => {
+  const { userId } = req.body;
+  if (!userId) return res.status(400).json({ error: 'Missing userId' });
+  const result = await prisma.trade.updateMany({
+    where: { userId, delivered: false },
+    data: { delivered: true },
+  });
+  res.json({ success: true, updated: result.count });
+});
+
 export default router; 

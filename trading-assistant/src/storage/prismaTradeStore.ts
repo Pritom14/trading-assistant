@@ -47,6 +47,7 @@ class PrismaTradeStore {
       take: 100,
     });
     return trades.map((t) => ({
+      id: t.id,
       userId: t.userId,
       symbol: t.symbol,
       side: t.side as 'long' | 'short',

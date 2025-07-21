@@ -5,6 +5,8 @@ import tradeInteractions from './api/tradeInteractions';
 import { expireOldTrades } from './jobs/expireTrades';
 import http from 'http';
 import { startWebSocketServer } from './realtime/websocketServer';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 app.use(express.json());

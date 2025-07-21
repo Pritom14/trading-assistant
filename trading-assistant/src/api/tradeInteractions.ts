@@ -20,4 +20,16 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
+// GET /api/trade-interactions?userId=demo
+router.get('/', async (req: Request, res: Response) => {
+  const { userId } = req.query;
+  if (!userId) return res.status(400).json({ error: 'Missing userId' });
+  const interactions = await prisma.tradeInteraction.findMany({
+    where: { userId: String(userId) },
+    orderBy: { timestamp: 'desc' },
+    take: 20,
+  });
+  res.json({ interactions });
+});
+
 export default router; 

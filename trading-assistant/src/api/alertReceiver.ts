@@ -3,8 +3,10 @@ import { TradeAlert } from '../models/TradeAlert';
 import { processTradeAlert } from '../logic/tradeProcessor';
 import { prismaTradeStore } from '../storage';
 import { notifyUser } from '../realtime/websocketServer';
+import { PrismaClient } from '@prisma/client';
 
 const router = Router();
+const prisma = new PrismaClient();
 
 /**
  * Sample curl payload:
@@ -37,7 +39,17 @@ router.post('/', async (req: Request, res: Response) => {
     // Pass through all fields for extensibility
     const processed = processTradeAlert({ ...alert });
     await prismaTradeStore.saveTrade(userId, processed);
-    notifyUser(processed);
+    // Fetch the saved trade with id
+    const saved = await prisma.trade.findFirst({
+      where: {
+        userId,
+        symbol: processed.symbol,
+        entry: processed.entry,
+        createdAt: new Date(processed.createdAt || Date.now()),
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    if (saved) notifyUser(saved);
     res.status(201).json({ success: true, processed });
   } catch (e) {
     res.status(500).json({ error: 'Processing failed', details: (e as Error).message });
