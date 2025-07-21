@@ -40,3 +40,14 @@ model Trade {
   @@index([userId])
   @@index([origin])
 }
+
+model TradeInteraction {
+  id        String   @id @default(cuid())
+  userId    String
+  tradeId   String
+  action    String   // 'accepted', 'skipped', etc.
+  timestamp DateTime @default(now())
+
+  @@index([userId])
+  @@index([tradeId])
+}

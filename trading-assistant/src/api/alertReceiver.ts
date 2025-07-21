@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { TradeAlert } from '../models/TradeAlert';
 import { processTradeAlert } from '../logic/tradeProcessor';
 import { prismaTradeStore } from '../storage';
+import { notifyUser } from '../realtime/websocketServer';
 
 const router = Router();
 
@@ -36,7 +37,7 @@ router.post('/', async (req: Request, res: Response) => {
     // Pass through all fields for extensibility
     const processed = processTradeAlert({ ...alert });
     await prismaTradeStore.saveTrade(userId, processed);
-    // Placeholder: notifyUser(userId, processed) for WebSocket/push
+    notifyUser(processed);
     res.status(201).json({ success: true, processed });
   } catch (e) {
     res.status(500).json({ error: 'Processing failed', details: (e as Error).message });
