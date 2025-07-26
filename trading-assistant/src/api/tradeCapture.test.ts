@@ -14,9 +14,9 @@ describe('POST /api/trades/log', () => {
   let testUserId: string;
 
   beforeAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
-    await prisma.trade.deleteMany();
     await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     
@@ -30,6 +30,7 @@ describe('POST /api/trades/log', () => {
   });
 
   afterAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
@@ -129,6 +130,7 @@ describe('GET /api/trades/user/:userId', () => {
   let testUserId: string;
 
   beforeAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
@@ -170,6 +172,7 @@ describe('GET /api/trades/user/:userId', () => {
   });
 
   afterAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
@@ -213,6 +216,7 @@ describe('GET /api/trades/user/:userId/stats', () => {
   let testUserId: string;
 
   beforeAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
@@ -258,6 +262,7 @@ describe('GET /api/trades/user/:userId/stats', () => {
   });
 
   afterAll(async () => {
+    // Clean up in correct order - delete dependent records first
     await prisma.userTrade.deleteMany();
     await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
