@@ -15,6 +15,9 @@ describe('POST /api/tv-alert', () => {
   let userId: string;
 
   beforeAll(async () => {
+    await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     const user = await prismaTradeStore.getOrCreateDemoUser();
