@@ -11,6 +11,8 @@ describe('TradeService', () => {
   beforeAll(async () => {
     // Clean up and create test user
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     
     const user = await prisma.user.create({
@@ -24,6 +26,8 @@ describe('TradeService', () => {
 
   afterAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     await prisma.$disconnect();
   });
@@ -102,7 +106,7 @@ describe('TradeService', () => {
       const result = await tradeService.saveTrade(payload);
 
       expect(result.success).toBe(false);
-      expect(result.error).toContain('is required');
+      expect(result.error).toBe('entryPrice must be a positive number');
     });
 
     it('should reject trade with invalid direction', async () => {
@@ -163,6 +167,18 @@ describe('TradeService', () => {
   describe('getUserTrades', () => {
     beforeEach(async () => {
       await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+      // Ensure user still exists
+      const existingUser = await prisma.user.findUnique({ where: { id: testUserId } });
+      if (!existingUser) {
+        const user = await prisma.user.create({
+          data: {
+            email: 'test@example.com',
+            name: 'Test User'
+          }
+        });
+        testUserId = user.id;
+      }
     });
 
     it('should return user trades in descending order', async () => {
@@ -222,6 +238,18 @@ describe('TradeService', () => {
   describe('getUserTradeStats', () => {
     beforeEach(async () => {
       await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+      // Ensure user still exists
+      const existingUser = await prisma.user.findUnique({ where: { id: testUserId } });
+      if (!existingUser) {
+        const user = await prisma.user.create({
+          data: {
+            email: 'test@example.com',
+            name: 'Test User'
+          }
+        });
+        testUserId = user.id;
+      }
     });
 
     it('should calculate correct statistics for winning and losing trades', async () => {

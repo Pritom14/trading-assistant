@@ -11,6 +11,8 @@ describe('processTradeAlert', () => {
 
   beforeAll(async () => {
     // Clean up DB and create demo user
+    await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
     await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     const user = await prismaTradeStore.getOrCreateDemoUser();

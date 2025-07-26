@@ -15,6 +15,9 @@ describe('POST /api/trades/log', () => {
 
   beforeAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     
     const user = await prisma.user.create({
@@ -28,6 +31,8 @@ describe('POST /api/trades/log', () => {
 
   afterAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     await prisma.$disconnect();
   });
@@ -125,6 +130,8 @@ describe('GET /api/trades/user/:userId', () => {
 
   beforeAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     
     const user = await prisma.user.create({
@@ -164,6 +171,8 @@ describe('GET /api/trades/user/:userId', () => {
 
   afterAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     await prisma.$disconnect();
   });
@@ -205,6 +214,8 @@ describe('GET /api/trades/user/:userId/stats', () => {
 
   beforeAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     
     const user = await prisma.user.create({
@@ -248,6 +259,8 @@ describe('GET /api/trades/user/:userId/stats', () => {
 
   afterAll(async () => {
     await prisma.userTrade.deleteMany();
+    await prisma.tradeInteraction.deleteMany();
+    await prisma.trade.deleteMany();
     await prisma.user.deleteMany();
     await prisma.$disconnect();
   });
