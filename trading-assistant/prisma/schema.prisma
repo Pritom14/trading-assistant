@@ -14,6 +14,7 @@ model User {
   email     String   @unique
   name      String?
   trades    Trade[]
+  userTrades UserTrade[]
   createdAt DateTime @default(now())
 }
 
@@ -39,6 +40,40 @@ model Trade {
 
   @@index([userId])
   @@index([origin])
+}
+
+model UserTrade {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  symbol      String
+  entryPrice  Float
+  exitPrice   Float?
+  quantity    Int
+  direction   TradeDirection
+  status      TradeStatus
+  pnl         Float?
+  timestamp   DateTime
+  broker      String
+  rawPayload  Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([symbol])
+  @@index([broker])
+  @@index([timestamp])
+}
+
+enum TradeDirection {
+  BUY
+  SELL
+}
+
+enum TradeStatus {
+  OPEN
+  CLOSED
+  REJECTED
 }
 
 model TradeInteraction {

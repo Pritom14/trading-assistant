@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config({ path: require('path').resolve(__dirname, '../../.env') });
 import { processTradeAlert } from './tradeProcessor';
 import { TradeAlert } from '../models/TradeAlert';
 import { prismaTradeStore } from '../storage/prismaTradeStore';
